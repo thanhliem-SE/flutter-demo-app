@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_ordering_app/screens/details/detail_screen.dart';
 import 'package:food_ordering_app/screens/home/components/item_card.dart';
 
 class ItemList extends StatelessWidget {
@@ -16,7 +17,16 @@ class ItemList extends StatelessWidget {
             shopName: "MacDonald's",
             title: "Burger & Beer",
             svgSrc: "assets/icons/burger_beer.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const DetailScreen();
+                  },
+                ),
+              );
+            },
           ),
           ItemCard(
             shopName: "Wendys",

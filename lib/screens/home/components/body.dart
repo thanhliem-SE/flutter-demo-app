@@ -9,13 +9,16 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SearchBox(onChanged: (value) {}),
-        const CategoryList(),
-        const ItemList(),
-        const DiscountCard(),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        children: [
+          SearchBox(onChanged: (value) {}),
+          const CategoryList(),
+          const ItemList(),
+          const DiscountCard(),
+        ],
+      ),
     );
   }
 }
