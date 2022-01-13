@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_app/screens/home/components/item_cart.dart';
+import 'package:food_ordering_app/screens/home/components/item_card.dart';
 
 class ItemList extends StatelessWidget {
   const ItemList({
@@ -12,25 +12,25 @@ class ItemList extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: <Widget>[
-          ItemCart(
+          ItemCard(
             shopName: "MacDonald's",
             title: "Burger & Beer",
             svgSrc: "assets/icons/burger_beer.svg",
             press: () {},
           ),
-          ItemCart(
+          ItemCard(
             shopName: "Wendys",
             title: "Chinese & Noodless",
             svgSrc: "assets/icons/chinese_noodles.svg",
             press: () {},
           ),
-          ItemCart(
+          ItemCard(
             shopName: "MacDonald's",
             title: "Burger & Beer",
             svgSrc: "assets/icons/burger_beer.svg",
             press: () {},
           ),
-          ItemCart(
+          ItemCard(
             shopName: "Wendys",
             title: "Chinese & Noodless",
             svgSrc: "assets/icons/chinese_noodles.svg",

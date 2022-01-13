@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_ordering_app/constants.dart';
 
-class ItemCart extends StatelessWidget {
+class ItemCard extends StatelessWidget {
   final String shopName, title, svgSrc;
   final VoidCallback? press;
-  const ItemCart({
+  const ItemCard({
     Key? key,
     required this.shopName,
     required this.title,
