@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_ordering_app/constants.dart';
 import 'package:food_ordering_app/screens/details/components/detail_app_bar.dart';
-import 'package:food_ordering_app/screens/home/components/body.dart';
 
 class DetailScreen extends StatelessWidget {
   const DetailScreen({Key? key}) : super(key: key);
@@ -17,13 +16,13 @@ class DetailScreen extends StatelessWidget {
 }
 
 class Body extends StatelessWidget {
-  const Body({ Key? key }) : super(key: key);
+  const Body({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Image.asset()
+        Image.asset("assets/images/burger.png"),
       ],
     );
   }
