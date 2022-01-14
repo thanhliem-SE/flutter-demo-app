@@ -35,7 +35,6 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_svg: ^0.22.0
   smooth_star_rating: ^1.0.4
-  eosdart: ^0.4.7
 
 dev_dependencies:
   flutter_test:

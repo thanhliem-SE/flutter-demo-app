@@ -32,19 +32,46 @@ class ItemList extends StatelessWidget {
             shopName: "Wendys",
             title: "Chinese & Noodless",
             svgSrc: "assets/icons/chinese_noodles.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const DetailScreen();
+                  },
+                ),
+              );
+            },
           ),
           ItemCard(
             shopName: "MacDonald's",
             title: "Burger & Beer",
             svgSrc: "assets/icons/burger_beer.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const DetailScreen();
+                  },
+                ),
+              );
+            },
           ),
           ItemCard(
             shopName: "Wendys",
             title: "Chinese & Noodless",
             svgSrc: "assets/icons/chinese_noodles.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const DetailScreen();
+                  },
+                ),
+              );
+            },
           ),
         ],
       ),
