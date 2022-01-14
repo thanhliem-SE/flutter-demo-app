@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:food_ordering_app/models/item.dart';
 import 'package:food_ordering_app/until/constants.dart';
+import 'package:food_ordering_app/views/details/detail_screen.dart';
 
 class ItemCard extends StatelessWidget {
-  final String shopName, title, svgSrc;
-  final VoidCallback? press;
+  final Item item;
   const ItemCard({
     Key? key,
-    required this.shopName,
-    required this.title,
-    required this.svgSrc,
-    this.press,
+    required this.item,
   }) : super(key: key);
 
   @override
@@ -32,7 +30,11 @@ class ItemCard extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: press,
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return const DetailScreen();
+            }));
+          },
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(children: <Widget>[
@@ -44,14 +46,14 @@ class ItemCard extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: SvgPicture.asset(
-                  svgSrc,
+                  item.svgSrc,
                   width: size.width * 0.18,
                 ),
               ),
-              Text(title),
+              Text(item.title),
               const SizedBox(height: 10),
               Text(
-                shopName,
+                item.shopName,
                 style: const TextStyle(fontSize: 12),
               ),
             ]),
