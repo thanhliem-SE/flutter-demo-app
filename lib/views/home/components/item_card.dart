@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ordering_app/constants.dart';
+import 'package:food_ordering_app/until/constants.dart';
 
 class ItemCard extends StatelessWidget {
   final String shopName, title, svgSrc;

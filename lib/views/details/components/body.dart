@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_app/screens/details/components/image_item.dart';
+import 'package:food_ordering_app/views/details/components/image_item.dart';
 
 import 'title_price_rating.dart';
 

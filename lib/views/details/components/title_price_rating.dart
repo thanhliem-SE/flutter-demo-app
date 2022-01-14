@@ -1,7 +1,7 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 import 'package:flutter/material.dart';
-import 'package:food_ordering_app/constants.dart';
-import 'package:food_ordering_app/screens/details/components/order_button.dart';
+import 'package:food_ordering_app/until/constants.dart';
+import 'package:food_ordering_app/views/details/components/order_button.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class TitlePriceRating extends StatelessWidget {

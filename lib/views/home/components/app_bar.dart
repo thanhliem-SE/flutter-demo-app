@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:food_ordering_app/constants.dart';
+import 'package:food_ordering_app/until/constants.dart';
 
 AppBar homeAppBar(BuildContext buildContext) {
   return AppBar(
@@ -26,7 +26,7 @@ AppBar homeAppBar(BuildContext buildContext) {
         IconButton(
           onPressed: () {},
           icon: SvgPicture.asset(
-            "assets/cons/notification.svg",
+            "assets/icons/notification.svg",
           ),
         ),
       ]);

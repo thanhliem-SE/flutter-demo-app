@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_app/constants.dart';
-import 'package:food_ordering_app/screens/details/components/body.dart';
-import 'package:food_ordering_app/screens/details/components/detail_app_bar.dart';
+import 'package:food_ordering_app/until/constants.dart';
+import 'package:food_ordering_app/views/details/components/body.dart';
+import 'package:food_ordering_app/views/details/components/detail_app_bar.dart';
 
 class DetailScreen extends StatelessWidget {
   const DetailScreen({Key? key}) : super(key: key);

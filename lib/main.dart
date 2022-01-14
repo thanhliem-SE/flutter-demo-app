@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:food_ordering_app/constants.dart';
-import 'package:food_ordering_app/screens/home/home_screens.dart';
+import 'package:food_ordering_app/until/constants.dart';
+import 'package:food_ordering_app/views/home/home_screens.dart';
 
 void main() => runApp(MyApp());
 

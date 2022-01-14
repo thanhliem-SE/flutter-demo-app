@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_app/components/search_box.dart';
-import 'package:food_ordering_app/screens/home/components/category_list.dart';
-import 'package:food_ordering_app/screens/home/components/discount_card.dart';
-import 'package:food_ordering_app/screens/home/components/item_list.dart';
+import 'package:food_ordering_app/views/components/search_box.dart';
+import 'package:food_ordering_app/views/home/components/category_list.dart';
+import 'package:food_ordering_app/views/home/components/discount_card.dart';
+import 'package:food_ordering_app/views/home/components/item_list.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);

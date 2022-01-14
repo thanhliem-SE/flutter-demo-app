@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_app/constants.dart';
+import 'package:food_ordering_app/until/constants.dart';
 
 class CategoryItem extends StatelessWidget {
   final String title;
