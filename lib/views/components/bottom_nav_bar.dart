@@ -1,53 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:food_ordering_app/until/constants.dart';
+import 'package:food_ordering_app/views/home/home_screens.dart';
+import 'package:food_ordering_app/views/personal/personal_screen.dart';
 
-class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({
-    Key? key,
-  }) : super(key: key);
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({Key? key}) : super(key: key);
 
   @override
+  _BottomNavBarState createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
+  int _selectedIndex = 0;
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 35),
-      height: 75,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.only(
-          // ignore: unnecessary_const
-          topLeft: const Radius.circular(20),
-          topRight: Radius.circular(20),
+    return BottomNavigationBar(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Home',
         ),
-        boxShadow: [
-          BoxShadow(
-            offset: const Offset(0, -7),
-            blurRadius: 33,
-            color: const Color(0xFF6DAED9).withOpacity(0.11),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset("assets/icons/home.svg"),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset("assets/icons/Following.svg"),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset("assets/icons/Glyph.svg"),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset("assets/icons/person.svg"),
-          ),
-        ],
-      ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.category),
+          label: 'Category',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Personal',
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      selectedItemColor: kPrimaryColor,
+      onTap: _onItemTapped,
     );
+  }
+
+  void _onItemTapped(int index) {
+    // print("==> Index: $index");
+    Route routePerson =
+        MaterialPageRoute(builder: (context) => const PersonalScreen());
+    Route routeHome =
+        MaterialPageRoute(builder: (context) => const HomeScreen());
+    if (index == 0) {
+      // Navigator.pop(context);
+      Navigator.push(context, routeHome);
+    } else if (index == 2) {
+      Navigator.pop(context);
+      Navigator.push(context, routePerson);
+    }
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }

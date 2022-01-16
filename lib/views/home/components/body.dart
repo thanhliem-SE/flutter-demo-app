@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_app/models/item.dart';
+import 'package:food_ordering_app/models/combo_meal.dart';
 import 'package:food_ordering_app/views/components/search_box.dart';
 import 'package:food_ordering_app/views/details/detail_screen.dart';
 import 'package:food_ordering_app/views/home/components/category_list.dart';
@@ -13,9 +13,11 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             SearchBox(onChanged: (value) {}),
             const CategoryList(),
@@ -33,28 +35,28 @@ class Body extends StatelessWidget {
     List<Widget> items = [];
     // items.add(ItemCard(item: Item(title: "", shopName: "", svgSrc: "", press:  toDetailScreen)));
     ItemCard itemCard1 = ItemCard(
-        item: Item(
+        item: ComboMeal(
             title: "Burger & Beer",
             shopName: "MacDonald",
             svgSrc: "assets/icons/burger_beer.svg"));
     items.add(itemCard1);
 
     ItemCard itemCard2 = ItemCard(
-        item: Item(
+        item: ComboMeal(
             title: "Chinese & Noodless",
             shopName: "MacDonald",
             svgSrc: "assets/icons/chinese_noodles.svg"));
     items.add(itemCard2);
 
     ItemCard itemCard3 = ItemCard(
-        item: Item(
+        item: ComboMeal(
             title: "Burger & Beer",
             shopName: "MacDonald",
             svgSrc: "assets/icons/burger_beer.svg"));
     items.add(itemCard3);
 
     ItemCard itemCard4 = ItemCard(
-        item: Item(
+        item: ComboMeal(
             title: "Chinese & Noodless",
             shopName: "MacDonald",
             svgSrc: "assets/icons/chinese_noodles.svg"));

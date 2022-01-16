@@ -1,7 +1,7 @@
-class Item {
+class ComboMeal {
   final String title, shopName, svgSrc;
 
-  Item({
+  ComboMeal({
     required this.title,
     required this.shopName,
     required this.svgSrc,

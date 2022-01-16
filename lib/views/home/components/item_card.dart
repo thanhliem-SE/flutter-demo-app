@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:food_ordering_app/models/item.dart';
+import 'package:food_ordering_app/models/combo_meal.dart';
 import 'package:food_ordering_app/until/constants.dart';
 import 'package:food_ordering_app/views/details/detail_screen.dart';
 
 class ItemCard extends StatelessWidget {
-  final Item item;
+  final ComboMeal item;
   const ItemCard({
     Key? key,
     required this.item,
