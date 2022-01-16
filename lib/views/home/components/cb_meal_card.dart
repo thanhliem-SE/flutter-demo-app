@@ -4,9 +4,9 @@ import 'package:food_ordering_app/models/combo_meal.dart';
 import 'package:food_ordering_app/until/constants.dart';
 import 'package:food_ordering_app/views/details/detail_screen.dart';
 
-class ItemCard extends StatelessWidget {
+class ComboMealCard extends StatelessWidget {
   final ComboMeal item;
-  const ItemCard({
+  const ComboMealCard({
     Key? key,
     required this.item,
   }) : super(key: key);
