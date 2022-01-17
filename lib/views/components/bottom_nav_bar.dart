@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_ordering_app/until/constants.dart';
 import 'package:food_ordering_app/views/home/home_screens.dart';
+import 'package:food_ordering_app/views/manager/category_manage_screen.dart';
 import 'package:food_ordering_app/views/personal/personal_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -41,12 +42,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
         MaterialPageRoute(builder: (context) => const PersonalScreen());
     Route routeHome =
         MaterialPageRoute(builder: (context) => const HomeScreen());
+    Route routeCategoryManage =
+        MaterialPageRoute(builder: (context) => const CategoryManage());
     if (index == 0) {
-      // Navigator.pop(context);
-      Navigator.push(context, routeHome);
+      Navigator.canPop(context)
+          ? Navigator.pop(context)
+          : Navigator.push(context, routeHome);
+    } else if (index == 1) {
+      Navigator.canPop(context)
+          ? Navigator.pop(context)
+          : Navigator.push(context, routeCategoryManage);
     } else if (index == 2) {
-      Navigator.pop(context);
-      Navigator.push(context, routePerson);
+      Navigator.canPop(context)
+          ? Navigator.pop(context)
+          : Navigator.push(context, routePerson);
     }
     setState(() {
       _selectedIndex = index;
