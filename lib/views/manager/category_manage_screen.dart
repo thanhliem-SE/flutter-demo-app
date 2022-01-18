@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_ordering_app/models/category.dart';
-import 'package:food_ordering_app/repo/category_repository.dart';
+import 'package:food_ordering_app/repository/category_repository.dart';
+import 'package:food_ordering_app/until/constants.dart';
 import 'package:food_ordering_app/views/components/bottom_nav_bar.dart';
+import 'package:food_ordering_app/views/listviews/category_managa_list_view.dart';
 
 class CategoryManage extends StatefulWidget {
   const CategoryManage({Key? key}) : super(key: key);
@@ -23,91 +25,69 @@ class _CategoryManageState extends State<CategoryManage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text("Category Manage"),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          color: Colors.black,
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.add_rounded),
-            color: Colors.green,
-            iconSize: 50,
-          ),
-        ],
-      ),
+      appBar: categoryManageAppBar(context),
       bottomNavigationBar: const BottomNavBar(),
-      body: Column(
-        children: [
-          FutureBuilder<List<Category>>(
-            future: futureCategoryList,
-            builder: (context, future) {
-              if (!future.hasData) {
-                return Container();
-              } // return empty container
-              else {
-                List<Category>? categoryList = future.data;
-                return Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: categoryList?.length,
-                    itemBuilder: (context, index) {
-                      String? name = categoryList?[index].name;
-                      String? img = categoryList?[index].img;
-                      Size size = MediaQuery.of(context).size;
-                      return Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Image.network(
-                              img!,
-                              fit: BoxFit.fill,
-                              height: size.height * 0.15,
-                              width: size.width * 0.2,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.3,
-                              child: Text(
-                                name!,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.edit),
-                              color: Colors.blue,
-                              iconSize: 40,
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.delete),
-                              color: Colors.red,
-                              iconSize: 40,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                );
-              }
-            },
-          ),
-        ],
+      body: categoryManageBody(),
+    );
+  }
+
+  Column categoryManageBody() {
+    return Column(
+      children: [
+        FutureBuilder<List<Category>>(
+          future: futureCategoryList,
+          builder: (context, future) {
+            if (!future.hasData) {
+              return Container();
+            } // return empty container
+            else {
+              List<Category>? categoryList = future.data;
+              return CategoryManageListView(
+                  categoryRepository: categoryRepository,
+                  categoryList: categoryList!);
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  AppBar categoryManageAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      title: const Text("Category Manage"),
+      leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back,
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        color: Colors.black,
       ),
+      actions: [
+        IconButton(
+          onPressed: () {
+            Category category = Category(
+                name: generateRandomString(10),
+                img: "https://cdn.quantrinhahang.edu.vn/wp-content/uploads/2019/06/fast-food-la-gi.jpg");
+
+            try {
+              categoryRepository.addCategory(category);
+              setState(() {
+                futureCategoryList = categoryRepository.getListCategory();
+              });
+
+              // ignore: empty_catches
+            } on Exception catch (_) {
+              
+            }
+          },
+          icon: const Icon(Icons.add_rounded),
+          color: Colors.green,
+          iconSize: 50,
+        ),
+      ],
     );
   }
 }

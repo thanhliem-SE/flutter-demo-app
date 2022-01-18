@@ -3,17 +3,25 @@ part 'category.g.dart';
 
 @JsonSerializable()
 class Category {
-  final String id;
-  final String name;
-  final String img;
+  String? id;
+  String name;
+  String img;
 
-  Category({
-    required this.id,
-    required this.name,
-    required this.img
-  });
+  String? getId() => id;
 
-  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
+  void setId(id) => this.id = id;
+
+  String getName() => name;
+
+  void setName(name) => this.name = name;
+
+  String getImg() => img;
+
+  void setImg(img) => this.img = img;
+
+  Category({this.id, required this.name, required this.img});
+
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
   Map<String, dynamic> toJson() => _$CategoryToJson(this);
-
 }

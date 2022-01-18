@@ -1,5 +1,5 @@
 class ComboMeal {
-  final String title, shopName, svgSrc;
+   String title, shopName, svgSrc;
 
   ComboMeal({
     required this.title,

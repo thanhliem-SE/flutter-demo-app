@@ -45,17 +45,20 @@ class _BottomNavBarState extends State<BottomNavBar> {
     Route routeCategoryManage =
         MaterialPageRoute(builder: (context) => const CategoryManage());
     if (index == 0) {
-      Navigator.canPop(context)
-          ? Navigator.pop(context)
-          : Navigator.push(context, routeHome);
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
+      Navigator.push(context, routeHome);
     } else if (index == 1) {
-      Navigator.canPop(context)
-          ? Navigator.pop(context)
-          : Navigator.push(context, routeCategoryManage);
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
+      Navigator.push(context, routeCategoryManage);
     } else if (index == 2) {
-      Navigator.canPop(context)
-          ? Navigator.pop(context)
-          : Navigator.push(context, routePerson);
+      if (Navigator.canPop(context)) {
+        Navigator.pop(context);
+      }
+      Navigator.push(context, routePerson);
     }
     setState(() {
       _selectedIndex = index;
