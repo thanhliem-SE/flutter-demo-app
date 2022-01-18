@@ -3,7 +3,7 @@ import 'package:food_ordering_app/models/category.dart';
 import 'package:food_ordering_app/repository/category_repository.dart';
 import 'package:food_ordering_app/until/constants.dart';
 import 'package:food_ordering_app/views/components/bottom_nav_bar.dart';
-import 'package:food_ordering_app/views/listviews/category_managa_list_view.dart';
+import 'package:food_ordering_app/views/listviews/category_manage_list_view.dart';
 
 class CategoryManage extends StatefulWidget {
   const CategoryManage({Key? key}) : super(key: key);
@@ -70,18 +70,15 @@ class _CategoryManageState extends State<CategoryManage> {
           onPressed: () {
             Category category = Category(
                 name: generateRandomString(10),
-                img: "https://cdn.quantrinhahang.edu.vn/wp-content/uploads/2019/06/fast-food-la-gi.jpg");
+                img: "https://picsum.photos/300/");
 
-            try {
               categoryRepository.addCategory(category);
               setState(() {
-                futureCategoryList = categoryRepository.getListCategory();
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CategoryManage()));
               });
-
-              // ignore: empty_catches
-            } on Exception catch (_) {
-              
-            }
           },
           icon: const Icon(Icons.add_rounded),
           color: Colors.green,

@@ -52,22 +52,12 @@ class CategoryRepository {
   }
 
   Future<Category> updateCategory(Category category) async {
-   final response = await http.put(Uri.parse(urlCategoryAPI),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(category.toJson()));
 
-    if (response.statusCode == 201) {
-      return category;
-    } else {
-      throw Exception("Failed to create Category");
-    }
-   
+    return category;
   }
+}
 
-  List<Category> parseCategoryList(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<Category>((json) => Category.fromJson(json)).toList();
-  }
+List<Category> parseCategoryList(String responseBody) {
+  final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+  return parsed.map<Category>((json) => Category.fromJson(json)).toList();
 }

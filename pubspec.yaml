@@ -17,6 +17,7 @@ dependencies:
   smooth_star_rating: ^1.0.4
   json_annotation: ^4.4.0
   http: ^0.13.4
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   # Your other dev_dependencies here
