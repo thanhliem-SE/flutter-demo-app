@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_ordering_app/models/category.dart';
 import 'package:food_ordering_app/repository/category_repository.dart';
 import 'package:food_ordering_app/until/constants.dart';
-import 'package:food_ordering_app/views/components/bottom_nav_bar.dart';
 import 'package:food_ordering_app/views/listviews/category_manage_list_view.dart';
 
 class CategoryManage extends StatefulWidget {
@@ -13,12 +12,14 @@ class CategoryManage extends StatefulWidget {
 }
 
 class _CategoryManageState extends State<CategoryManage> {
-  late CategoryRepository categoryRepository = CategoryRepository();
+  late CategoryRepository categoryRepository;
   late Future<List<Category>> futureCategoryList;
+  late List<Category> _categoryList;
 
   @override
   void initState() {
     super.initState();
+    categoryRepository = CategoryRepository();
     futureCategoryList = categoryRepository.getListCategory();
   }
 
@@ -26,7 +27,6 @@ class _CategoryManageState extends State<CategoryManage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: categoryManageAppBar(context),
-      bottomNavigationBar: const BottomNavBar(),
       body: categoryManageBody(),
     );
   }
@@ -34,6 +34,7 @@ class _CategoryManageState extends State<CategoryManage> {
   Column categoryManageBody() {
     return Column(
       children: [
+        // SearchBox(onChanged: (value) {}),
         FutureBuilder<List<Category>>(
           future: futureCategoryList,
           builder: (context, future) {
@@ -41,10 +42,8 @@ class _CategoryManageState extends State<CategoryManage> {
               return Container();
             } // return empty container
             else {
-              List<Category>? categoryList = future.data;
-              return CategoryManageListView(
-                  categoryRepository: categoryRepository,
-                  categoryList: categoryList!);
+              _categoryList = future.data!;
+              return CategoryManageListView(categoryList: _categoryList);
             }
           },
         ),
@@ -56,15 +55,6 @@ class _CategoryManageState extends State<CategoryManage> {
     return AppBar(
       backgroundColor: Colors.white,
       title: const Text("Category Manage"),
-      leading: IconButton(
-        icon: const Icon(
-          Icons.arrow_back,
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        color: Colors.black,
-      ),
       actions: [
         IconButton(
           onPressed: () {
@@ -72,13 +62,10 @@ class _CategoryManageState extends State<CategoryManage> {
                 name: generateRandomString(10),
                 img: "https://picsum.photos/300/");
 
-              categoryRepository.addCategory(category);
-              setState(() {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CategoryManage()));
-              });
+            categoryRepository.addCategory(category);
+            setState(() {
+              _categoryList.add(category);
+            });
           },
           icon: const Icon(Icons.add_rounded),
           color: Colors.green,

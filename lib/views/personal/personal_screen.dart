@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_ordering_app/views/components/bottom_nav_bar.dart';
 
 class PersonalScreen extends StatelessWidget {
   const PersonalScreen({Key? key}) : super(key: key);
@@ -19,7 +18,6 @@ class PersonalScreen extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

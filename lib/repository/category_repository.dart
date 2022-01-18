@@ -23,7 +23,7 @@ class CategoryRepository {
     }
   }
 
-  Future<bool> deleteCategory(String id) async {
+  Future<bool> deleteCategory(String? id) async {
     final http.Response response = await http.delete(
       Uri.parse("$urlCategoryAPI/$id"),
       headers: <String, String>{

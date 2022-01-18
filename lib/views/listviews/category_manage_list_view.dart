@@ -4,10 +4,8 @@ import 'package:food_ordering_app/repository/category_repository.dart';
 import 'package:food_ordering_app/until/constants.dart';
 
 class CategoryManageListView extends StatefulWidget {
-  final CategoryRepository categoryRepository;
   final List<Category> categoryList;
-  const CategoryManageListView(
-      {Key? key, required this.categoryRepository, required this.categoryList})
+  const CategoryManageListView({Key? key, required this.categoryList})
       : super(key: key);
 
   @override
@@ -15,7 +13,15 @@ class CategoryManageListView extends StatefulWidget {
 }
 
 class _CategoryManageListViewState extends State<CategoryManageListView> {
+  late CategoryRepository categoryRepository;
+
   _CategoryManageListViewState();
+
+  @override
+  void initState() {
+    super.initState();
+    categoryRepository = CategoryRepository();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +61,7 @@ class _CategoryManageListViewState extends State<CategoryManageListView> {
                   onPressed: () {
                     String nameUpdate = generateRandomString(10);
                     category.setName = nameUpdate;
-                    widget.categoryRepository.updateCategory(category);
+                    categoryRepository.updateCategory(category);
                     setState(() {
                       widget.categoryList[index].setName = nameUpdate;
                     });
@@ -66,7 +72,7 @@ class _CategoryManageListViewState extends State<CategoryManageListView> {
                 ),
                 IconButton(
                   onPressed: () {
-                    widget.categoryRepository.deleteCategory(id!);
+                    categoryRepository.deleteCategory(id);
                     setState(() {
                       widget.categoryList.removeAt(index);
                     });

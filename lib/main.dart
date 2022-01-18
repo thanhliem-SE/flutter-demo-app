@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_ordering_app/until/constants.dart';
-import 'package:food_ordering_app/views/home/home_screens.dart';
+import 'package:food_ordering_app/views/components/primary_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,7 +24,8 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(color: ksecondaryColor),
         ),
       ),
-      home: const HomeScreen(),
+      // bottomNavigationBar: const BottomNavBar(),
+      home: const PrimaryScreen(),
     );
   }
 
