@@ -7,17 +7,17 @@ class Category {
   String? id;
   String name;
   String img;
- String? get getId => id;
+  String? get getId => id;
 
- set setId(String? id) => this.id = id;
+  set setId(String? id) => this.id = id;
 
   get getName => name;
 
- set setName( name) => this.name = name;
+  set setName(name) => this.name = name;
 
   get getImg => img;
 
- set setImg( img) => this.img = img;
+  set setImg(img) => this.img = img;
 
   Category({this.id, required this.name, required this.img});
 
