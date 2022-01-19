@@ -64,9 +64,10 @@ class CategoryService {
       throw Exception("Failed to update Category");
     }
   }
-}
 
-// List<Category> parseCategoryList(String responseBody) {
-//   final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-//   return parsed.map<Category>((json) => Category.fromJson(json)).toList();
-// }
+  void deleteListCategory(List<String> listId) {
+    for (String id in listId) {
+      deleteCategory(id);
+    }
+  }
+}

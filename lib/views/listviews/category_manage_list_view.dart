@@ -1,19 +1,22 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:food_ordering_app/models/category.dart';
 import 'package:food_ordering_app/service/category_service.dart';
 import 'package:food_ordering_app/until/constants.dart';
+import 'package:food_ordering_app/views/home/components/category_list.dart';
 
 class CategoryManageListView extends StatefulWidget {
   final List<Category> categoryList;
   final Function() notifyCheckListState;
+  final Function(String,int) notifyListIdToDelete;
 
   const CategoryManageListView(
       {Key? key,
       required this.categoryList,
-      required this.notifyCheckListState})
+      required this.notifyCheckListState,
+      required this.notifyListIdToDelete})
       : super(key: key);
 
   @override
@@ -29,7 +32,6 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -146,6 +148,11 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
                 child: CheckboxListTile(
                   value: isChecked[index],
                   onChanged: (val) {
+                    if (isChecked[index] == false) {
+                      String _id = widget.categoryList[index].getId;
+                      widget.notifyListIdToDelete(_id, index);
+                      // print(_id);
+                    }
                     setState(() {
                       isChecked[index] = val!;
                     });
@@ -161,7 +168,6 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
 
   // Receiver call from parent widget
   void hideCheckBox() {
-    print("===============");
     setState(() {
       isVisible = false;
     });

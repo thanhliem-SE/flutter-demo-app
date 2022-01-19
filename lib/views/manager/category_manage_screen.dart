@@ -16,6 +16,8 @@ class _CategoryManageState extends State<CategoryManage> {
   late Future<List<Category>> futureCategoryList;
   late List<Category> _categoryList;
   late AppBar customAppBar;
+  late List<String> listIdToDelete;
+  late List<int> listIndexToDelete;
   final GlobalKey<CategoryManageListViewState> _key = GlobalKey();
 
   @override
@@ -24,6 +26,8 @@ class _CategoryManageState extends State<CategoryManage> {
     categoryService = CategoryService();
     futureCategoryList = categoryService.getListCategory();
     customAppBar = categoryManageAppBar(context);
+    listIdToDelete = [];
+    listIndexToDelete = [];
   }
 
   @override
@@ -47,8 +51,10 @@ class _CategoryManageState extends State<CategoryManage> {
             else {
               _categoryList = future.data!;
               return CategoryManageListView(
+                  key: _key,
                   categoryList: _categoryList,
-                  notifyCheckListState: setCheckListState);
+                  notifyCheckListState: notifyCheckListState,
+                  notifyListIdToDelete: notifyListIdToDelete);
             }
           },
         ),
@@ -92,13 +98,19 @@ class _CategoryManageState extends State<CategoryManage> {
           setState(() {
             customAppBar = categoryManageAppBar(context);
             _key.currentState?.hideCheckBox();
+            listIdToDelete.clear();
           });
         },
         icon: const Icon(Icons.arrow_back),
       ),
       actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            // print(listIdToDelete.length);
+            categoryService.deleteListCategory(listIdToDelete);
+
+            setState(() {});
+          },
           icon: const Icon(Icons.delete),
           color: Colors.red,
           iconSize: 30,
@@ -107,9 +119,14 @@ class _CategoryManageState extends State<CategoryManage> {
     );
   }
 
-  setCheckListState() {
+  notifyCheckListState() {
     setState(() {
       customAppBar = checkListStateAppBar(context);
     });
+  }
+
+  notifyListIdToDelete(String id, int index) {
+    listIdToDelete.add(id);
+    listIndexToDelete.add(index);
   }
 }
