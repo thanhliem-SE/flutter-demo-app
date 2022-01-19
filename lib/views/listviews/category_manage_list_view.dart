@@ -10,7 +10,7 @@ import 'package:food_ordering_app/views/home/components/category_list.dart';
 class CategoryManageListView extends StatefulWidget {
   final List<Category> categoryList;
   final Function() notifyCheckListState;
-  final Function(String,int) notifyListIdToDelete;
+  final Function(String) notifyListIdToDelete;
 
   const CategoryManageListView(
       {Key? key,
@@ -27,6 +27,7 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
   late CategoryService categoryService;
   late List<bool> isChecked;
   late bool isVisible;
+  late List<Category> listCategoryRemove;
 
   CategoryManageListViewState();
 
@@ -41,6 +42,7 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
     categoryService = CategoryService();
     isChecked = List<bool>.filled(widget.categoryList.length, false);
     isVisible = false;
+    listCategoryRemove = [];
   }
 
   @override
@@ -150,7 +152,8 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
                   onChanged: (val) {
                     if (isChecked[index] == false) {
                       String _id = widget.categoryList[index].getId;
-                      widget.notifyListIdToDelete(_id, index);
+                      widget.notifyListIdToDelete(_id);
+                      listCategoryRemove.add(widget.categoryList[index]);
                       // print(_id);
                     }
                     setState(() {
@@ -168,7 +171,26 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
 
   // Receiver call from parent widget
   void hideCheckBox() {
+    isVisible = false;
+    for (int i = 0; i < widget.categoryList.length; i++) {
+      isChecked[i] = false;
+    }
+  }
+
+  void addItemToList(Category category) {
     setState(() {
+      widget.categoryList.add(category);
+      isChecked = List<bool>.filled(widget.categoryList.length, false);
+      isVisible = false;
+    });
+  }
+
+  void removeItemFormList() {
+    for (int i = 0; i < listCategoryRemove.length; i++) {
+      widget.categoryList.remove(listCategoryRemove[i]);
+    }
+    setState(() {
+      isChecked = List<bool>.filled(widget.categoryList.length, false);
       isVisible = false;
     });
   }

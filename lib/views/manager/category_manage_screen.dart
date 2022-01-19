@@ -17,7 +17,6 @@ class _CategoryManageState extends State<CategoryManage> {
   late List<Category> _categoryList;
   late AppBar customAppBar;
   late List<String> listIdToDelete;
-  late List<int> listIndexToDelete;
   final GlobalKey<CategoryManageListViewState> _key = GlobalKey();
 
   @override
@@ -27,7 +26,6 @@ class _CategoryManageState extends State<CategoryManage> {
     futureCategoryList = categoryService.getListCategory();
     customAppBar = categoryManageAppBar(context);
     listIdToDelete = [];
-    listIndexToDelete = [];
   }
 
   @override
@@ -70,16 +68,14 @@ class _CategoryManageState extends State<CategoryManage> {
         IconButton(
           onPressed: () {
             Category category = Category(
-                name: generateRandomString(8),
+                name: generateRandomString(10),
                 img:
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJVABt6MH9bcf8mKwLYc34RmP-dAsnHyhwA&usqp=CAU",
-                description: generateRandomString(15),
+                description: generateRandomString(20),
                 index: _categoryList.length);
 
             categoryService.addCategory(category);
-            setState(() {
-              _categoryList.add(category);
-            });
+            _key.currentState?.addItemToList(category);
           },
           icon: const Icon(Icons.add_rounded),
           color: Colors.green,
@@ -96,9 +92,7 @@ class _CategoryManageState extends State<CategoryManage> {
       leading: IconButton(
         onPressed: () {
           setState(() {
-            customAppBar = categoryManageAppBar(context);
-            _key.currentState?.hideCheckBox();
-            listIdToDelete.clear();
+            refeshAppBar(context);
           });
         },
         icon: const Icon(Icons.arrow_back),
@@ -109,7 +103,11 @@ class _CategoryManageState extends State<CategoryManage> {
             // print(listIdToDelete.length);
             categoryService.deleteListCategory(listIdToDelete);
 
-            setState(() {});
+            setState(() {
+              refeshAppBar(context);
+
+              futureCategoryList = categoryService.getListCategory();
+            });
           },
           icon: const Icon(Icons.delete),
           color: Colors.red,
@@ -119,14 +117,19 @@ class _CategoryManageState extends State<CategoryManage> {
     );
   }
 
+  void refeshAppBar(BuildContext context) {
+    customAppBar = categoryManageAppBar(context);
+    _key.currentState?.hideCheckBox();
+    listIdToDelete.clear();
+  }
+
   notifyCheckListState() {
     setState(() {
       customAppBar = checkListStateAppBar(context);
     });
   }
 
-  notifyListIdToDelete(String id, int index) {
+  notifyListIdToDelete(String id) {
     listIdToDelete.add(id);
-    listIndexToDelete.add(index);
   }
 }
