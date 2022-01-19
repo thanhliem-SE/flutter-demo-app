@@ -1,27 +1,44 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:food_ordering_app/models/category.dart';
-import 'package:food_ordering_app/repository/category_repository.dart';
+import 'package:food_ordering_app/service/category_service.dart';
 import 'package:food_ordering_app/until/constants.dart';
 
 class CategoryManageListView extends StatefulWidget {
   final List<Category> categoryList;
-  const CategoryManageListView({Key? key, required this.categoryList})
+  final Function() notifyCheckListState;
+
+  const CategoryManageListView(
+      {Key? key,
+      required this.categoryList,
+      required this.notifyCheckListState})
       : super(key: key);
 
   @override
-  _CategoryManageListViewState createState() => _CategoryManageListViewState();
+  CategoryManageListViewState createState() => CategoryManageListViewState();
 }
 
-class _CategoryManageListViewState extends State<CategoryManageListView> {
-  late CategoryRepository categoryRepository;
+class CategoryManageListViewState extends State<CategoryManageListView> {
+  late CategoryService categoryService;
+  late List<bool> isChecked;
+  late bool isVisible;
 
-  _CategoryManageListViewState();
+  CategoryManageListViewState();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
-    categoryRepository = CategoryRepository();
+    categoryService = CategoryService();
+    isChecked = List<bool>.filled(widget.categoryList.length, false);
+    isVisible = false;
   }
 
   @override
@@ -42,63 +59,111 @@ class _CategoryManageListViewState extends State<CategoryManageListView> {
               child: SlideAnimation(
                   verticalOffset: 50.0,
                   child: FadeInAnimation(
-                      child: categoryManageItem(
-                          img, size, name, category, index, id))));
+                      child: categoryManageItem(category, index, id))));
         },
       ),
     );
   }
 
-  Padding categoryManageItem(String img, Size size, String name,
-      Category category, int index, String? id) {
+  Padding categoryManageItem(Category category, int index, String? id) {
+    Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.all(15),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Image.network(
-            img,
-            fit: BoxFit.fill,
-            height: size.height * 0.15,
-            width: size.width * 0.2,
-          ),
-          SizedBox(
-            width: size.width * 0.3,
-            child: Text(
-              name,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-              ),
-              textAlign: TextAlign.center,
+      child: InkWell(
+        onLongPress: () {
+          if (!isVisible) {
+            setState(() {
+              isVisible = true;
+              widget.notifyCheckListState();
+            });
+          }
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.network(
+              category.img,
+              fit: BoxFit.fill,
+              height: size.height * 0.15,
+              width: size.width * 0.2,
+              errorBuilder: (BuildContext context, Object exception,
+                  StackTrace? stackTrace) {
+                return Image.asset(
+                  'assets/images/no_img.jpg',
+                  height: size.height * 0.15,
+                  width: size.width * 0.2,
+                );
+              },
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              String nameUpdate = generateRandomString(10);
-              category.setName = nameUpdate;
-              categoryRepository.updateCategory(category);
-              setState(() {
-                widget.categoryList[index].setName = nameUpdate;
-              });
-            },
-            icon: const Icon(Icons.edit),
-            color: Colors.blue,
-            iconSize: 40,
-          ),
-          IconButton(
-            onPressed: () {
-              categoryRepository.deleteCategory(id);
-              setState(() {
-                widget.categoryList.removeAt(index);
-              });
-            },
-            icon: const Icon(Icons.delete),
-            color: Colors.red,
-            iconSize: 40,
-          ),
-        ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      category.name,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      category.description,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                String nameUpdate = generateRandomString(10);
+                category.setName = nameUpdate;
+
+                categoryService.updateCategory(category, category.id);
+                setState(() {
+                  widget.categoryList[index].setName = nameUpdate;
+                });
+              },
+              icon: const Icon(Icons.edit),
+              color: Colors.blue,
+              iconSize: 40,
+            ),
+            Visibility(
+              visible: isVisible,
+              child: SizedBox(
+                width: 30,
+                child: CheckboxListTile(
+                  value: isChecked[index],
+                  onChanged: (val) {
+                    setState(() {
+                      isChecked[index] = val!;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  // Receiver call from parent widget
+  void hideCheckBox() {
+    print("===============");
+    setState(() {
+      isVisible = false;
+    });
   }
 }

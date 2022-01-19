@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_ordering_app/models/category.dart';
-import 'package:food_ordering_app/repository/category_repository.dart';
+import 'package:food_ordering_app/service/category_service.dart';
 import 'package:food_ordering_app/until/constants.dart';
 import 'package:food_ordering_app/views/listviews/category_manage_list_view.dart';
 
@@ -12,21 +12,24 @@ class CategoryManage extends StatefulWidget {
 }
 
 class _CategoryManageState extends State<CategoryManage> {
-  late CategoryRepository categoryRepository;
+  late CategoryService categoryService;
   late Future<List<Category>> futureCategoryList;
   late List<Category> _categoryList;
+  late AppBar customAppBar;
+  final GlobalKey<CategoryManageListViewState> _key = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    categoryRepository = CategoryRepository();
-    futureCategoryList = categoryRepository.getListCategory();
+    categoryService = CategoryService();
+    futureCategoryList = categoryService.getListCategory();
+    customAppBar = categoryManageAppBar(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: categoryManageAppBar(context),
+      appBar: customAppBar,
       body: categoryManageBody(),
     );
   }
@@ -43,7 +46,9 @@ class _CategoryManageState extends State<CategoryManage> {
             } // return empty container
             else {
               _categoryList = future.data!;
-              return CategoryManageListView(categoryList: _categoryList);
+              return CategoryManageListView(
+                  categoryList: _categoryList,
+                  notifyCheckListState: setCheckListState);
             }
           },
         ),
@@ -59,10 +64,13 @@ class _CategoryManageState extends State<CategoryManage> {
         IconButton(
           onPressed: () {
             Category category = Category(
-                name: generateRandomString(10),
-                img: "https://picsum.photos/300/");
+                name: generateRandomString(8),
+                img:
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJVABt6MH9bcf8mKwLYc34RmP-dAsnHyhwA&usqp=CAU",
+                description: generateRandomString(15),
+                index: _categoryList.length);
 
-            categoryRepository.addCategory(category);
+            categoryService.addCategory(category);
             setState(() {
               _categoryList.add(category);
             });
@@ -73,5 +81,35 @@ class _CategoryManageState extends State<CategoryManage> {
         ),
       ],
     );
+  }
+
+  AppBar checkListStateAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      title: const Text("Category Manage"),
+      leading: IconButton(
+        onPressed: () {
+          setState(() {
+            customAppBar = categoryManageAppBar(context);
+            _key.currentState?.hideCheckBox();
+          });
+        },
+        icon: const Icon(Icons.arrow_back),
+      ),
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.delete),
+          color: Colors.red,
+          iconSize: 30,
+        ),
+      ],
+    );
+  }
+
+  setCheckListState() {
+    setState(() {
+      customAppBar = checkListStateAppBar(context);
+    });
   }
 }
