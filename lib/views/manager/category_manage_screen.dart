@@ -73,7 +73,7 @@ class _CategoryManageState extends State<CategoryManage> {
             Category category = Category(
                 name: generateRandomString(10),
                 img:
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJVABt6MH9bcf8mKwLYc34RmP-dAsnHyhwA&usqp=CAU",
+                    "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpY2tlbiUyMGZvb2R8ZW58MHx8MHx8&w=1000&q=80",
                 description: generateRandomString(40),
                 index: _categoryList.length);
 

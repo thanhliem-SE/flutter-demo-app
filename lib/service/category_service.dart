@@ -52,13 +52,15 @@ class CategoryService {
   }
 
   Future<Category> updateCategory(Category category, String id) async {
-    final response = await http.post(Uri.parse("$urlCategoryAPI/$id"),
+    // print("$urlCategoryAPI/$id");
+    final response = await http.put(Uri.parse("$urlCategoryAPI/$id/"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(category.toJson()));
+    // print(response.statusCode);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       return category;
     } else {
       throw Exception("Failed to update Category");
@@ -70,5 +72,4 @@ class CategoryService {
       deleteCategory(id);
     }
   }
-
 }

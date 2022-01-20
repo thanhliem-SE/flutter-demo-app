@@ -59,4 +59,10 @@ class Category {
         "index": index,
         "id": id,
       };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return '\n ' + toJson().toString() + ' \n';
+  }
 }

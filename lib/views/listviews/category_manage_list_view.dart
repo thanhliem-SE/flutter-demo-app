@@ -47,18 +47,32 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
     isChecked = List<bool>.filled(categoryList.length, false);
     isVisible = false;
     listCategoryToRemove = [];
+
+    categoryList.sort((a, b) => a.index - b.index);
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
-        // onReorder: (oldIndex, newIndex) => setState(() {
-        //   final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
+      child: ReorderableListView.builder(
+        padding: const EdgeInsets.all(15),
+        onReorder: (int oldIndex, int newIndex) {
+          if (oldIndex < newIndex) {
+            newIndex -= 1;
+          }
 
-        //   final item = categoryList.removeAt(oldIndex);
-        //   categoryList.insert(index, item);
-        // }),
+          categoryList[oldIndex].setIndex = newIndex;
+          categoryList[newIndex].setIndex = oldIndex;
+
+          categoryService.updateCategory(
+              categoryList[oldIndex], categoryList[oldIndex].id);
+          categoryService.updateCategory(
+              categoryList[newIndex], categoryList[newIndex].id);
+          setState(() {
+            final Category item = categoryList.removeAt(oldIndex);
+            categoryList.insert(newIndex, item);
+          });
+        },
         shrinkWrap: true,
         itemCount: categoryList.length,
         itemBuilder: (context, index) {
@@ -73,12 +87,14 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
     );
   }
 
-  Padding itemInListView(Category category, Size size, int index) {
-    return Padding(
-      // key: Key(category.id),
-      padding: const EdgeInsets.all(15),
+  Widget itemInListView(Category category, Size size, int index) {
+    return Container(
+      key: Key('$index'),
+      padding: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.only(bottom: 10),
+      color: index.isOdd ? Colors.white10 : Colors.yellow[50],
       child: InkWell(
-        onLongPress: () {
+        onDoubleTap: () {
           if (!isVisible) {
             setState(() {
               isVisible = true;
@@ -176,6 +192,7 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
       isChecked = List<bool>.filled(categoryList.length + 1, false);
       categoryList.add(category);
       isVisible = false;
+      categoryList.sort((a, b) => a.index - b.index);
     });
   }
 
