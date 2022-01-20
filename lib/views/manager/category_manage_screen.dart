@@ -17,15 +17,18 @@ class _CategoryManageState extends State<CategoryManage> {
   late List<Category> _categoryList;
   late AppBar customAppBar;
   late List<String> listIdToDelete;
+  late int numSelectedItem;
   final GlobalKey<CategoryManageListViewState> _key = GlobalKey();
 
   @override
   void initState() {
-    super.initState();
+    numSelectedItem = 0;
+    listIdToDelete = [];
+
     categoryService = CategoryService();
     futureCategoryList = categoryService.getListCategory();
-    customAppBar = categoryManageAppBar(context);
-    listIdToDelete = [];
+    customAppBar = categoryManageAppBar(context, numSelectedItem);
+    super.initState();
   }
 
   @override
@@ -60,7 +63,7 @@ class _CategoryManageState extends State<CategoryManage> {
     );
   }
 
-  AppBar categoryManageAppBar(BuildContext context) {
+  AppBar categoryManageAppBar(BuildContext context, int num) {
     return AppBar(
       backgroundColor: Colors.white,
       title: const Text("Category Manage"),
@@ -71,7 +74,7 @@ class _CategoryManageState extends State<CategoryManage> {
                 name: generateRandomString(10),
                 img:
                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoJVABt6MH9bcf8mKwLYc34RmP-dAsnHyhwA&usqp=CAU",
-                description: generateRandomString(20),
+                description: generateRandomString(40),
                 index: _categoryList.length);
 
             categoryService.addCategory(category);
@@ -85,10 +88,10 @@ class _CategoryManageState extends State<CategoryManage> {
     );
   }
 
-  AppBar checkListStateAppBar(BuildContext context) {
+  AppBar checkListStateAppBar(BuildContext context, int num) {
     return AppBar(
       backgroundColor: Colors.white,
-      title: const Text("Category Manage"),
+      title: Text("$num item selected"),
       leading: IconButton(
         onPressed: () {
           setState(() {
@@ -125,22 +128,22 @@ class _CategoryManageState extends State<CategoryManage> {
   }
 
   void refeshAppBar(BuildContext context) {
-    customAppBar = categoryManageAppBar(context);
+    numSelectedItem = 0;
+    customAppBar = categoryManageAppBar(context, numSelectedItem);
     _key.currentState?.hideCheckBox();
     listIdToDelete.clear();
   }
 
   notifyCheckListState() {
     setState(() {
-      customAppBar = checkListStateAppBar(context);
+      customAppBar = checkListStateAppBar(context, numSelectedItem);
     });
   }
 
-  notifyListIdToDelete(String id, String status) {
-    if (status == "add") {
-      listIdToDelete.add(id);
-    } else {
-      listIdToDelete.remove(id);
-    }
+  notifyListIdToDelete(int num) {
+    numSelectedItem = num;
+    setState(() {
+      customAppBar = checkListStateAppBar(context, numSelectedItem);
+    });
   }
 }

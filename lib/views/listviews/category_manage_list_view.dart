@@ -10,7 +10,7 @@ import 'package:food_ordering_app/views/home/components/category_list.dart';
 class CategoryManageListView extends StatefulWidget {
   final List<Category> categoryList;
   final Function() notifyCheckListState;
-  final Function(String, String) notifyListIdToDelete;
+  final Function(int) notifyListIdToDelete;
 
   const CategoryManageListView(
       {Key? key,
@@ -142,13 +142,13 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
                   onChanged: (val) {
                     String _id = categoryList[index].getId;
                     if (isChecked[index] == false) {
-                      widget.notifyListIdToDelete(_id, "add");
                       listIdToRemove.add(_id);
                       listCategoryToRemove.add(categoryList[index]);
+                      widget.notifyListIdToDelete(listCategoryToRemove.length);
                     } else {
-                      widget.notifyListIdToDelete(_id, "remove");
                       listIdToRemove.remove(_id);
                       listCategoryToRemove.remove(categoryList[index]);
+                      widget.notifyListIdToDelete(listCategoryToRemove.length);
                     }
                     setState(() {
                       isChecked[index] = val!;
@@ -201,6 +201,7 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
       for (var element in categoryList) {
         listIdToRemove.add(element.getId);
         listCategoryToRemove.add(element);
+        widget.notifyListIdToDelete(listCategoryToRemove.length);
       }
     });
   }
