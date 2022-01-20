@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, unused_import
+// ignore_for_file: unused_import, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -10,7 +10,7 @@ import 'package:food_ordering_app/views/home/components/category_list.dart';
 class CategoryManageListView extends StatefulWidget {
   final List<Category> categoryList;
   final Function() notifyCheckListState;
-  final Function(String) notifyListIdToDelete;
+  final Function(String, String) notifyListIdToDelete;
 
   const CategoryManageListView(
       {Key? key,
@@ -25,9 +25,11 @@ class CategoryManageListView extends StatefulWidget {
 
 class CategoryManageListViewState extends State<CategoryManageListView> {
   late CategoryService categoryService;
+  late List<Category> categoryList;
   late List<bool> isChecked;
   late bool isVisible;
-  late List<Category> listCategoryRemove;
+  late List<Category> listCategoryToRemove;
+  late List<String> listIdToRemove;
 
   CategoryManageListViewState();
 
@@ -39,10 +41,12 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
   @override
   void initState() {
     super.initState();
+    categoryList = widget.categoryList;
     categoryService = CategoryService();
-    isChecked = List<bool>.filled(widget.categoryList.length, false);
+    listIdToRemove = [];
+    isChecked = List<bool>.filled(categoryList.length, false);
     isVisible = false;
-    listCategoryRemove = [];
+    listCategoryToRemove = [];
   }
 
   @override
@@ -50,9 +54,9 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
     return Expanded(
       child: ListView.builder(
         shrinkWrap: true,
-        itemCount: widget.categoryList.length,
+        itemCount: categoryList.length,
         itemBuilder: (context, index) {
-          Category category = widget.categoryList[index];
+          Category category = categoryList[index];
           String name = category.name;
           String img = category.img;
           String? id = category.id;
@@ -136,7 +140,7 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
 
                 categoryService.updateCategory(category, category.id);
                 setState(() {
-                  widget.categoryList[index].setName = nameUpdate;
+                  categoryList[index].setName = nameUpdate;
                 });
               },
               icon: const Icon(Icons.edit),
@@ -150,11 +154,15 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
                 child: CheckboxListTile(
                   value: isChecked[index],
                   onChanged: (val) {
+                    String _id = categoryList[index].getId;
                     if (isChecked[index] == false) {
-                      String _id = widget.categoryList[index].getId;
-                      widget.notifyListIdToDelete(_id);
-                      listCategoryRemove.add(widget.categoryList[index]);
-                      // print(_id);
+                      widget.notifyListIdToDelete(_id, "add");
+                      listIdToRemove.add(_id);
+                      listCategoryToRemove.add(categoryList[index]);
+                    } else {
+                      widget.notifyListIdToDelete(_id, "remove");
+                      listIdToRemove.remove(_id);
+                      listCategoryToRemove.remove(categoryList[index]);
                     }
                     setState(() {
                       isChecked[index] = val!;
@@ -172,26 +180,30 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
   // Receiver call from parent widget
   void hideCheckBox() {
     isVisible = false;
-    for (int i = 0; i < widget.categoryList.length; i++) {
-      isChecked[i] = false;
-    }
+    isChecked = List<bool>.filled(categoryList.length, false);
+    listCategoryToRemove.clear();
+    listIdToRemove.clear();
   }
 
   void addItemToList(Category category) {
     setState(() {
-      widget.categoryList.add(category);
-      isChecked = List<bool>.filled(widget.categoryList.length, false);
+      categoryList.add(category);
+      isChecked = List<bool>.filled(categoryList.length, false);
       isVisible = false;
     });
   }
 
   void removeItemFormList() {
-    for (int i = 0; i < listCategoryRemove.length; i++) {
-      widget.categoryList.remove(listCategoryRemove[i]);
+    categoryService.deleteListCategory(listIdToRemove);
+    for (int i = 0; i < listCategoryToRemove.length; i++) {
+      if (i < (listCategoryToRemove.length - 1)) {
+        categoryList.remove(listCategoryToRemove[i]);
+      } else {
+        setState(() {
+          categoryList.remove(listCategoryToRemove[i]);
+          hideCheckBox();
+        });
+      }
     }
-    setState(() {
-      isChecked = List<bool>.filled(widget.categoryList.length, false);
-      isVisible = false;
-    });
   }
 }

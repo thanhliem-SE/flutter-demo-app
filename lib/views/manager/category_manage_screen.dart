@@ -100,13 +100,10 @@ class _CategoryManageState extends State<CategoryManage> {
       actions: [
         IconButton(
           onPressed: () {
-            // print(listIdToDelete.length);
-            categoryService.deleteListCategory(listIdToDelete);
-
+            _key.currentState?.removeItemFormList();
+            // categoryService.deleteListCategory(listIdToDelete);
             setState(() {
               refeshAppBar(context);
-
-              futureCategoryList = categoryService.getListCategory();
             });
           },
           icon: const Icon(Icons.delete),
@@ -129,7 +126,11 @@ class _CategoryManageState extends State<CategoryManage> {
     });
   }
 
-  notifyListIdToDelete(String id) {
-    listIdToDelete.add(id);
+  notifyListIdToDelete(String id, String status) {
+    if (status == "add") {
+      listIdToDelete.add(id);
+    } else {
+      listIdToDelete.remove(id);
+    }
   }
 }
