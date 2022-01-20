@@ -99,6 +99,11 @@ class _CategoryManageState extends State<CategoryManage> {
       ),
       actions: [
         IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.edit),
+          color: Colors.blue,
+        ),
+        IconButton(
           onPressed: () {
             _key.currentState?.removeItemFormList();
             // categoryService.deleteListCategory(listIdToDelete);
@@ -108,8 +113,13 @@ class _CategoryManageState extends State<CategoryManage> {
           },
           icon: const Icon(Icons.delete),
           color: Colors.red,
-          iconSize: 30,
         ),
+        IconButton(
+          onPressed: () {
+            _key.currentState?.selectAllItems();
+          },
+          icon: const Icon(Icons.select_all),
+        )
       ],
     );
   }

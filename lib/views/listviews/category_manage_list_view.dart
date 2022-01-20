@@ -53,6 +53,12 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
+        // onReorder: (oldIndex, newIndex) => setState(() {
+        //   final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
+
+        //   final item = categoryList.removeAt(oldIndex);
+        //   categoryList.insert(index, item);
+        // }),
         shrinkWrap: true,
         itemCount: categoryList.length,
         itemBuilder: (context, index) {
@@ -61,21 +67,15 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
           String img = category.img;
           String? id = category.id;
           Size size = MediaQuery.of(context).size;
-          return AnimationConfiguration.staggeredList(
-              position: index,
-              duration: const Duration(milliseconds: 375),
-              child: SlideAnimation(
-                  verticalOffset: 50.0,
-                  child: FadeInAnimation(
-                      child: categoryManageItem(category, index, id))));
+          return itemInListView(category, size, index);
         },
       ),
     );
   }
 
-  Padding categoryManageItem(Category category, int index, String? id) {
-    Size size = MediaQuery.of(context).size;
+  Padding itemInListView(Category category, Size size, int index) {
     return Padding(
+      // key: Key(category.id),
       padding: const EdgeInsets.all(15),
       child: InkWell(
         onLongPress: () {
@@ -133,20 +133,6 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                String nameUpdate = generateRandomString(10);
-                category.setName = nameUpdate;
-
-                categoryService.updateCategory(category, category.id);
-                setState(() {
-                  categoryList[index].setName = nameUpdate;
-                });
-              },
-              icon: const Icon(Icons.edit),
-              color: Colors.blue,
-              iconSize: 40,
-            ),
             Visibility(
               visible: isVisible,
               child: SizedBox(
@@ -181,14 +167,14 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
   void hideCheckBox() {
     isVisible = false;
     isChecked = List<bool>.filled(categoryList.length, false);
-    listCategoryToRemove.clear();
     listIdToRemove.clear();
+    listCategoryToRemove = [];
   }
 
   void addItemToList(Category category) {
     setState(() {
+      isChecked = List<bool>.filled(categoryList.length + 1, false);
       categoryList.add(category);
-      isChecked = List<bool>.filled(categoryList.length, false);
       isVisible = false;
     });
   }
@@ -205,5 +191,17 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
         });
       }
     }
+  }
+
+  void selectAllItems() {
+    listIdToRemove.clear();
+    listCategoryToRemove.clear();
+    setState(() {
+      isChecked = List<bool>.filled(categoryList.length, true);
+      for (var element in categoryList) {
+        listIdToRemove.add(element.getId);
+        listCategoryToRemove.add(element);
+      }
+    });
   }
 }
