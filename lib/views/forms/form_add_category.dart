@@ -19,17 +19,17 @@ class _FormAddCategoryState extends State<FormAddCategory> {
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
 
-  late File _image;
+  late XFile? _image;
 
   Future getImagefromGallery() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
     });
   }
 
   Future getImagefromcamera() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    var image = await ImagePicker().pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
     });

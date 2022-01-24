@@ -12,14 +12,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^0.1.2
-  flutter_svg: ^0.22.0
+  cupertino_icons: ^1.0.4
+  flutter_svg: ^1.0.3
   smooth_star_rating: ^1.0.4
   json_annotation: ^4.4.0
   http: ^0.13.4
   fluttertoast: ^8.0.8
   flutter_staggered_animations: "^1.0.0"
-  image_picker: ^0.6.6+5
+  image_picker: ^0.8.4+4
   video_player: ^2.2.14
   path: ^1.8.0
 
