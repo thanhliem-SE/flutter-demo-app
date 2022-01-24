@@ -3,7 +3,9 @@ import 'package:food_ordering_app/models/category.dart';
 import 'package:food_ordering_app/service/category_service.dart';
 
 class FormAddCategory extends StatefulWidget {
-  const FormAddCategory({Key? key}) : super(key: key);
+  final Function(Category) notifyAddFrom;
+  const FormAddCategory({Key? key, required this.notifyAddFrom})
+      : super(key: key);
 
   @override
   _FormAddCategoryState createState() => _FormAddCategoryState();
@@ -76,6 +78,7 @@ class _FormAddCategoryState extends State<FormAddCategory> {
                         img: "",
                         index: 0);
                     CategoryService().addCategory(category);
+                    widget.notifyAddFrom(category);
                   }
                 },
                 child: const Text('Submit'),

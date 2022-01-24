@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_ordering_app/models/category.dart';
 import 'package:food_ordering_app/service/category_service.dart';
-import 'package:food_ordering_app/until/constants.dart';
 import 'package:food_ordering_app/views/forms/form_add_category.dart';
 import 'package:food_ordering_app/views/listviews/category_manage_list_view.dart';
 
@@ -19,12 +18,14 @@ class _CategoryManageState extends State<CategoryManage> {
   late AppBar customAppBar;
   late List<String> listIdToDelete;
   late int numSelectedItem;
+  late bool isShowForm;
   final GlobalKey<CategoryManageListViewState> _key = GlobalKey();
 
   @override
   void initState() {
     numSelectedItem = 0;
     listIdToDelete = [];
+    isShowForm = false;
 
     categoryService = CategoryService();
     futureCategoryList = categoryService.getListCategory();
@@ -43,7 +44,12 @@ class _CategoryManageState extends State<CategoryManage> {
   Column categoryManageBody() {
     return Column(
       children: [
-        const FormAddCategory(),
+        Visibility(
+          visible: isShowForm,
+          child: FormAddCategory(
+            notifyAddFrom: notifyAddItem,
+          ),
+        ),
         FutureBuilder<List<Category>>(
           future: futureCategoryList,
           builder: (context, future) {
@@ -71,15 +77,9 @@ class _CategoryManageState extends State<CategoryManage> {
       actions: [
         IconButton(
           onPressed: () {
-            Category category = Category(
-                name: generateRandomString(10),
-                img:
-                    "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpY2tlbiUyMGZvb2R8ZW58MHx8MHx8&w=1000&q=80",
-                description: generateRandomString(40),
-                index: _categoryList.length);
-
-            categoryService.addCategory(category);
-            _key.currentState?.addItemToList(category);
+            setState(() {
+              isShowForm = true;
+            });
           },
           icon: const Icon(Icons.add_rounded),
           color: Colors.green,
@@ -146,5 +146,12 @@ class _CategoryManageState extends State<CategoryManage> {
     setState(() {
       customAppBar = checkListStateAppBar(context, numSelectedItem);
     });
+  }
+
+  notifyAddItem(Category category) {
+    setState(() {
+      isShowForm = false;
+    });
+    _key.currentState?.addItemToList(category);
   }
 }
