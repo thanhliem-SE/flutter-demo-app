@@ -78,7 +78,7 @@ class _CategoryManageState extends State<CategoryManage> {
         IconButton(
           onPressed: () {
             setState(() {
-              isShowForm = true;
+              isShowForm = !isShowForm;
             });
           },
           icon: const Icon(Icons.add_rounded),

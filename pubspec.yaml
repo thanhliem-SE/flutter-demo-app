@@ -21,6 +21,7 @@ dependencies:
   flutter_staggered_animations: "^1.0.0"
   image_picker: ^0.6.6+5
   video_player: ^2.2.14
+  path: ^1.8.0
 
 dev_dependencies:
   # Your other dev_dependencies here
