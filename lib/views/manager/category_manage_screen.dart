@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_ordering_app/models/category.dart';
 import 'package:food_ordering_app/service/category_service.dart';
 import 'package:food_ordering_app/until/constants.dart';
+import 'package:food_ordering_app/views/forms/form_add_category.dart';
 import 'package:food_ordering_app/views/listviews/category_manage_list_view.dart';
 
 class CategoryManage extends StatefulWidget {
@@ -42,7 +43,7 @@ class _CategoryManageState extends State<CategoryManage> {
   Column categoryManageBody() {
     return Column(
       children: [
-        // SearchBox(onChanged: (value) {}),
+        const FormAddCategory(),
         FutureBuilder<List<Category>>(
           future: futureCategoryList,
           builder: (context, future) {
