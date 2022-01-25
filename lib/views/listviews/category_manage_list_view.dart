@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import, unused_local_variable
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:food_ordering_app/models/category.dart';
@@ -112,10 +114,17 @@ class CategoryManageListViewState extends State<CategoryManageListView> {
               width: size.width * 0.2,
               errorBuilder: (BuildContext context, Object exception,
                   StackTrace? stackTrace) {
-                return Image.asset(
-                  'assets/images/no_img.jpg',
+                return Image.file(
+                  File(category.img),
                   height: size.height * 0.15,
                   width: size.width * 0.2,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      'assets/images/no_img.jpg',
+                      height: size.height * 0.15,
+                      width: size.width * 0.2,
+                    );
+                  },
                 );
               },
             ),
